@@ -46,16 +46,19 @@ const getPrice = async (tokenAddress) => {
 const getPriceFromTx = async (txID) => {
     const { data } = await axios.get(config.bscApiBaseUrl +
         `module=proxy&action=eth_getTransactionByHash&txhash=${txID}`);
-    if (!config.rightFunctions.includes(data.result.input.slice(0, 10))) return;
-    const decodedInput =
-        decodeConstructorArgs(config.abi, data.result.input.slice(10));
+    try {
 
-    const bnbInput = parseInt(data.result.value, 16);
-    const tokenOut = parseInt(decodedInput.find(
-        (e) => e.name == "amountOut").data);
-    const tokenPriceInBnb = (bnbInput / tokenOut) * 0.9925;
-    // console.log(`BNB value of token: ${tokenPriceInBnb}`);
-    return tokenPriceInBnb;
+        if (!config.rightFunctions.includes(data.result.input.slice(0, 10))) return;
+        const decodedInput =
+            decodeConstructorArgs(config.abi, data.result.input.slice(10));
+
+        const bnbInput = parseInt(data.result.value, 16);
+        const tokenOut = parseInt(decodedInput.find(
+            (e) => e.name == "amountOut").data);
+        const tokenPriceInBnb = (bnbInput / tokenOut) * 0.9925;
+        // console.log(`BNB value of token: ${tokenPriceInBnb}`);
+        return tokenPriceInBnb;
+    } catch (e) { return }
 };
 
 const getLatestTxsFromToken = async (tokenAddress) => {

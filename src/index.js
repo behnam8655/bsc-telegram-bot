@@ -24,7 +24,7 @@ app.post("/", async (req, res) => {
 
 setInterval(() => {
     updatePrices()
-}, 5000)
+}, 15000)
 
 app.listen(config.port, () => {
     console.log(`Local server running on port ${config.port}`);
