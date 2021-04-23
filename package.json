@@ -11,6 +11,7 @@
     "license": "ISC",
     "dependencies": {
         "axios": "^0.21.1",
+        "canoe-solidity": "^0.1.0",
         "express": "^4.17.1",
         "firebase-admin": "^9.6.0",
         "node-telegram-bot-api": "^0.52.0",
