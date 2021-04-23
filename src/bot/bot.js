@@ -15,7 +15,6 @@ bot.command("/help", (ctx) => ctx.reply(`
   `));
 bot.command("/u", (ctx) => updatePrices());
 bot.command("/s", async (ctx) => {
-    console.log("received setAlert command")
     const token = ctx.message.text.split(" ")[1];
     const triggerType = ctx.message.text.split(" ")[2];
     const priceTarget = ctx.message.text.split(" ")[3];
