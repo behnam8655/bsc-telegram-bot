@@ -7,6 +7,7 @@ const updatePrices = async () => {
     db.collection("alerts").get().then((snapshot) => {
         snapshot.docs.map(async (tokenDoc) => {
             const price = await getPrice(tokenDoc.id);
+            if (!price) return;
             db.collection("alerts").doc(tokenDoc.id).collection("subbedUsers").get().then((snapshot) => {
                 snapshot.docs.map((user) => {
                     const u = user.data()
@@ -40,7 +41,6 @@ const getPrice = async (tokenAddress) => {
             return price;
         }
     }
-    throw new Error;
 };
 
 const getPriceFromTx = async (txID) => {
