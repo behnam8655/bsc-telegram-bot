@@ -1,4 +1,4 @@
-const Axios = require("Axios");
+const axios = require("axios");
 const { db, bot } = require("../commons/commons")
 const config = require("../commons/config.json")
 const { decodeConstructorArgs } = require("canoe-solidity");
@@ -44,7 +44,7 @@ const getPrice = async (tokenAddress) => {
 };
 
 const getPriceFromTx = async (txID) => {
-    const { data } = await Axios.get(config.bscApiBaseUrl +
+    const { data } = await axios.get(config.bscApiBaseUrl +
         `module=proxy&action=eth_getTransactionByHash&txhash=${txID}`);
     if (!config.rightFunctions.includes(data.result.input.slice(0, 10))) return;
     const decodedInput =
@@ -59,7 +59,7 @@ const getPriceFromTx = async (txID) => {
 };
 
 const getLatestTxsFromToken = async (tokenAddress) => {
-    const { data } = await Axios.get(config.bscApiBaseUrl +
+    const { data } = await axios.get(config.bscApiBaseUrl +
         `module=account&action=tokentx&contractaddress=${tokenAddress}&page=1&offset=100&sort=desc`);
     return data.result;
 };
