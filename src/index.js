@@ -8,6 +8,8 @@ const config = require("./commons/config.json");
 const { updatePrices } = require("./libs/prices")
 
 app.post("/", async (req, res) => {
+    console.log("🚀 ~ file: index.js ~ line 12 ~ app.post ~  req.body", req.body)
+    if (req.body.update_id) res.status(200).send();
     console.log("received: " + req.body.message.text + " from " + req.body.message.chat.first_name + " " + req.body.message.chat.username)
     await bot.handleUpdate(req.body, res).catch(
         () => res.status(500).send()
@@ -23,8 +25,9 @@ app.post("/", async (req, res) => {
 // });
 
 setInterval(() => {
+    if (config.testing) console.log("checking prices...")
     updatePrices()
-}, 15000)
+}, 5000)
 
 app.listen(config.port, () => {
     console.log(`Local server running on port ${config.port}`);

@@ -7,7 +7,10 @@ const updatePrices = async () => {
     db.collection("alerts").get().then((snapshot) => {
         snapshot.docs.map(async (tokenDoc) => {
             const price = await getPrice(tokenDoc.id);
-            if (!price) return;
+            if (!price) {
+                console.log("price update failed!");
+                return;
+            }
             db.collection("alerts").doc(tokenDoc.id).collection("subbedUsers").get().then((snapshot) => {
                 snapshot.docs.map((user) => {
                     const u = user.data()
@@ -47,7 +50,6 @@ const getPriceFromTx = async (txID) => {
     const { data } = await axios.get(config.bscApiBaseUrl +
         `module=proxy&action=eth_getTransactionByHash&txhash=${txID}`);
     try {
-
         if (!config.rightFunctions.includes(data.result.input.slice(0, 10))) return;
         const decodedInput =
             decodeConstructorArgs(config.abi, data.result.input.slice(10));

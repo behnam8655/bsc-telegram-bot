@@ -1,5 +1,5 @@
 const { bot, areArgsValid } = require("../commons/commons")
-const { setPriceAlert } = require("../libs/dbDriver")
+const { setPriceAlert, removePriceAlert, viewAlerts } = require("../libs/dbDriver")
 
 // error handling
 bot.catch((err, ctx) => {
@@ -26,10 +26,11 @@ bot.command("/s", async (ctx) => {
 
 bot.command("/deleteAlert", async (ctx) => {
     const token = ctx.message.text.split(" ")[1];
-    const tmp = await admin.firestore().collection("alerts").doc(token).get();
-    const props = tmp.data();
-    const subbedUsers = props?.subbedUsers;
+    removePriceAlert(token, ctx.message.from.id);
+});
 
+bot.command("/viewAlerts", async (ctx) => {
+    viewAlerts(ctx.message.from.id);
 });
 
 bot.on("message", (ctx) => {
