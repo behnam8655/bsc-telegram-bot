@@ -34,7 +34,6 @@ bot.command("/deleteAlert", async (ctx) => {
 });
 
 bot.on("message", (ctx) => {
-    console.log("sdad")
     ctx.reply(ctx.message.text ?? "no message found")
 })
 
